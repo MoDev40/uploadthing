@@ -9,7 +9,15 @@ const auth = (req: Request) => ({ id: "test" });
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
-  fileUploader: file({ image: { maxFileSize:"8MB",maxFileCount:1 },pdf: { maxFileSize:"8MB",maxFileCount:1},text: { maxFileSize:"8MB",maxFileCount:1}})
+  fileUploader: file({ image: { maxFileSize:"8MB",maxFileCount:1 },
+    pdf: { maxFileSize:"8MB",maxFileCount:1 },text:{ maxFileSize:"8MB",maxFileCount:1 },
+    "application/msword":{ maxFileSize:"8MB",maxFileCount:1 },
+    "application/vnd.ms-powerpoint":{ maxFileSize:"8MB",maxFileCount:1},
+    "application/vnd.ms-excel":{ maxFileCount:1,maxFileSize:"8MB" },
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":{ maxFileSize:"8MB",maxFileCount:1 },
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":{ maxFileSize:"8MB",maxFileCount:1 },
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation":{ maxFileSize:"16MB",maxFileCount:1 },
+    })
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
       const user = await auth(req);
