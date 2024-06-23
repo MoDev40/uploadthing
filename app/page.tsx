@@ -1,10 +1,12 @@
 "use client"
+import { useGetFilesQuery, useUploadFileMutation } from "@/lib/features/fileSlice";
 import { UploadDropzone } from "@/utils/uploadthing";
-import axios from "axios";
-
+import Link from "next/link";
 export default function Home() {
+  const [upload,{isLoading}] = useUploadFileMutation()
+  const { data: files, isFetching } = useGetFilesQuery();
   return (
-    <div className="container mx-auto h-screen flex flex-col justify-center">
+    <div className="container space-y-8 mx-auto h-screen flex flex-col justify-center">
       <UploadDropzone
       className="bg-slate-800 ut-label:text-lg ut-allowed-content:ut-uploading:text-red-300"
       
@@ -17,7 +19,7 @@ export default function Home() {
         url: res[0].url,
         key: res[0].key
         }
-        await axios.post('/api/file/store',file).then((response)=>{
+        await upload(file).unwrap().then(() =>{
           alert("Upload Completed");
         })
       }}
@@ -26,6 +28,21 @@ export default function Home() {
       }}
       
       />
+      <div>
+        {isLoading || isFetching ?<p>Loading...</p> :
+          files&&
+          <ul>
+          {
+            files.map((file) =>(
+              <li key={file.size}>
+                <p>{file.name}</p>
+                <Link href={file.url}>{file.url}</Link>
+              </li>
+            ))
+          }
+          </ul>
+        }
+      </div>
     </div>
   );
 }

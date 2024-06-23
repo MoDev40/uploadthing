@@ -20,3 +20,12 @@ export async function POST(req:NextRequest){
         return NextResponse.json({message:"error"},{status:500});
     }
 }
+
+export async function GET(req:NextRequest){
+    try {
+        const files = await prisma.fileStores.findMany();
+        return NextResponse.json(files,{status:200});
+    } catch (error) {
+        return NextResponse.json({message:"error"},{status:500});
+    }
+}
