@@ -5,7 +5,7 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 export const makeStore = () => {
    const store = configureStore({
     reducer: {
-        [fileSlice.reducerPath]: fileSlice.reducer
+      [fileSlice.reducerPath]: fileSlice.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(fileSlice.middleware)
