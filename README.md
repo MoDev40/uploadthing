@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# UploadthingDemo
 
-## Getting Started
+This is a web application that allows users to upload various file types, including images, PDFs, text files, and Microsoft Office documents. The application uses the `uploadthing` cloud service to handle file uploads and saves the file URLs to a MongoDB database using Redux Toolkit's `RTK Query`.
 
-First, run the development server:
+## Supported File Types
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The application supports the following file types:
+
+```json
+{
+  "images": {
+    "maxFileSize": "8MB",
+    "maxFileCount": 1
+  },
+  "pdfs": {
+    "maxFileSize": "8MB",
+    "maxFileCount": 1
+  },
+  "textFiles": {
+    "maxFileSize": "8MB",
+    "maxFileCount": 1
+  },
+  "microsoftWordDocuments": {
+    "maxFileSize": "8MB",
+    "maxFileCount": 1
+  },
+  "microsoftPowerPointPresentations": {
+    "maxFileSize": "8MB",
+    "maxFileCount": 1
+  },
+  "microsoftExcelSpreadsheets": {
+    "maxFileSize": "8MB",
+    "maxFileCount": 1
+  },
+  "microsoftWordDocumentsInDOCXFormat": {
+    "maxFileSize": "8MB",
+    "maxFileCount": 1
+  },
+  "microsoftExcelSpreadsheetsInXLSXFormat": {
+    "maxFileSize": "8MB",
+    "maxFileCount": 1
+  },
+  "microsoftPowerPointPresentationsInPPTXFormat": {
+    "maxFileSize": "16MB",
+    "maxFileCount": 1
+  }
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Uploadthing Data Return Type
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+When a file is successfully uploaded using `uploadthing`, the returned data structure is as follows:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```ts
+[
+  {
+    customId: null,
+    key: string,
+    name: string,
+    serverData: { uploadedBy: string },
+    size: number,
+    type: string,
+    url: string
+  }
+]
+```
 
-## Learn More
+Example usage:
 
-To learn more about Next.js, take a look at the following resources:
+```js
+onClientUploadComplete={async (res) => {
+  const file = {
+    name: res[0].name,
+    size: res[0].size,
+    type: res[0].type,
+    url: res[0].url,
+    key: res[0].key
+  }
+}}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## File Types
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Refer to [Common MIME Types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types) on MDN for more details on file types.
 
-## Deploy on Vercel
+## Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Supports the file types listed above.
+- Saves the uploaded file URLs to a MongoDB database using Redux Toolkit's `RTK Query`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Installation
+
+1. Clone the repository: 
+
+    ```bash
+    git clone https://github.com/MoDev40/uploadthing.git
+    ```
+
+2. Install the dependencies: 
+
+    ```bash
+    cd uploadthing 
+    npm install
+    ```
+
+3. Set up the environment variables:
+
+    - Create a `.env` or `.env.local` file in the project root directory.
+    - Add the necessary environment variables, such as the MongoDB connection string and the `UPLOADTHING_SECRET` configuration.
+
+4. Start the development server: 
+
+    ```bash
+    npm start
+    ```
+
+    The application will be available at `http://localhost:3000`.
+
+## Usage
+
+1. Drag and drop or click to select files to upload.
+2. The uploaded files will be saved to the MongoDB database, and their URLs will be available in the application.
+
+## Technology Stack
+
+- React
+- Redux Toolkit
+- MongoDB
+- [`uploadthing cloud service`](https://uploadthing.com)
+
+This demo showcases the integration of `uploadthing`, `RTK Query`, and MongoDB for file uploads.
