@@ -6,45 +6,35 @@ This is a web application that allows users to upload various file types, includ
 
 The application supports the following file types:
 
-```json
-{
-  "images": {
-    "maxFileSize": "8MB",
-    "maxFileCount": 1
-  },
-  "pdfs": {
-    "maxFileSize": "8MB",
-    "maxFileCount": 1
-  },
-  "textFiles": {
-    "maxFileSize": "8MB",
-    "maxFileCount": 1
-  },
-  "microsoftWordDocuments": {
-    "maxFileSize": "8MB",
-    "maxFileCount": 1
-  },
-  "microsoftPowerPointPresentations": {
-    "maxFileSize": "8MB",
-    "maxFileCount": 1
-  },
-  "microsoftExcelSpreadsheets": {
-    "maxFileSize": "8MB",
-    "maxFileCount": 1
-  },
-  "microsoftWordDocumentsInDOCXFormat": {
-    "maxFileSize": "8MB",
-    "maxFileCount": 1
-  },
-  "microsoftExcelSpreadsheetsInXLSXFormat": {
-    "maxFileSize": "8MB",
-    "maxFileCount": 1
-  },
-  "microsoftPowerPointPresentationsInPPTXFormat": {
-    "maxFileSize": "16MB",
-    "maxFileCount": 1
-  }
-}
+```ts
+fileUploader: file({ 
+
+    // Image format
+    image: { maxFileSize:"8MB",maxFileCount:1 },
+    // Text format
+    text:{ maxFileSize:"8MB",maxFileCount:1 },
+    // Pdf format
+    pdf: { maxFileSize:"8MB",maxFileCount:1 },
+
+    // office document formats
+
+    // Ms words format
+    "application/msword":
+    { maxFileSize:"8MB",maxFileCount:1 },
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+    { maxFileSize:"8MB",maxFileCount:1 },
+    // Ms powerpoint format
+    "application/vnd.ms-powerpoint":
+    { maxFileSize:"8MB",maxFileCount:1},
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+    { maxFileSize:"16MB",maxFileCount:1 },
+    // Ms excel format
+    "application/vnd.ms-excel":
+    { maxFileCount:1,maxFileSize:"8MB" },
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+    { maxFileSize:"8MB",maxFileCount:1 },
+    
+  })
 ```
 
 ## Uploadthing Data Return Type
