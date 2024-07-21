@@ -14,13 +14,28 @@ const fileSlice = createApi({
     baseQuery:fetchBaseQuery({baseUrl:BASE_URL}),
     tagTypes:['files'],
     endpoints:(builder)=>({
-        uploadFile:builder.mutation<any,FileBody>({
+        uploadFile:builder.mutation<FileBody,FileBody>({
             query:(file)=>({
                 url:'/file/store',
                 method:'POST',
                 body:file
             }),
             invalidatesTags:['files']
+        }),
+        deleteFile:builder.mutation<string,string | string[]>({
+            query:(fileKeys)=>({
+                url:`/uploadthing`,
+                method:'DELETE',
+                body:{ fileKeys }
+            }),
+            invalidatesTags:['files']
+        }),
+        deleteStoreFile:builder.mutation<FileBody,string | string[]>({
+            query:(id)=>({
+                url:`/file/delete`,
+                method:'DELETE',
+                body:{ id }
+            }),
         }),
         getFiles:builder.query<FileBody[],void>({
             query:()=>({
@@ -35,5 +50,7 @@ const fileSlice = createApi({
 export default fileSlice
 export const {
     useUploadFileMutation,
-    useGetFilesQuery
+    useGetFilesQuery,
+    useDeleteFileMutation,
+    useDeleteStoreFileMutation,
 } = fileSlice

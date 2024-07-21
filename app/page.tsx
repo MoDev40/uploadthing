@@ -1,10 +1,30 @@
 "use client"
-import { useGetFilesQuery, useUploadFileMutation } from "@/lib/features/fileSlice";
+import { useDeleteFileMutation, useDeleteStoreFileMutation, useGetFilesQuery, useUploadFileMutation } from "@/lib/features/fileSlice";
 import { UploadDropzone } from "@/utils/uploadthing";
 import Link from "next/link";
 export default function Home() {
-  const [upload,{isLoading}] = useUploadFileMutation()
+  const [upload,{ isLoading }] = useUploadFileMutation();
   const { data: files, isFetching } = useGetFilesQuery();
+  const [deleteFile,{ isLoading:isLoad }] = useDeleteFileMutation();
+  const [deleteStoreFile,{ isLoading:Loader }] = useDeleteStoreFileMutation();
+
+
+  async function handleDelete(id:string) {
+    await deleteStoreFile(id).unwrap()
+    .then(async(res)=>{
+      await deleteFile(res.key).unwrap()
+      .then(()=>{
+        alert("Deleted Successfully")
+      })
+      .catch(()=>{
+        alert("Unexpected error")
+      })
+    })
+    .catch(()=>{
+      alert("Unexpected error")
+    })
+  }
+
   return (
     <div className="container space-y-8 mx-auto h-screen flex flex-col justify-center">
       <UploadDropzone
@@ -31,16 +51,19 @@ export default function Home() {
       <div>
         {isLoading || isFetching ?<p>Loading...</p> :
           files&&
-          <ul>
+          <div className="flex flex-col gap-4">
           {
             files.map((file) =>(
-              <li key={file.size}>
+              <div className="flex flex-col gap-4" key={file.key}>
                 <p>{file.name}</p>
                 <Link href={file.url}>{file.url}</Link>
-              </li>
+                <button onClick={()=>{
+                  handleDelete(file?.id as string)
+                }} className="bg-rose-600 p-2 rounded w-24">{isLoad || Loader ? "loading...." : "delete"}</button>
+              </div>
             ))
           }
-          </ul>
+          </div>
         }
       </div>
     </div>
