@@ -118,4 +118,4 @@ Refer to [Common MIME Types](https://developer.mozilla.org/en-US/docs/Web/HTTP/B
 - MongoDB
 - [`uploadthing cloud service`](https://uploadthing.com)
 
-This demo showcases the integration of `uploadthing`, `RTK Query`, and MongoDB for file uploads.
+This demo showcases the integration of `uploadthing`, `RTK Query`, `Nextjs`, and `MongoDB`.
